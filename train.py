@@ -6,8 +6,9 @@ def handling_csv():
 
 # df = handling_csv()
 
-def train_test_split():
+def train_test_split_fun():
     from sklearn.model_selection import train_test_split
+
     df = handling_csv()
 
     # Columns to drop
@@ -108,7 +109,7 @@ df = pd.read_csv("./data/clean_data/final_cleaned_data.csv")
 
 # Step 2: Prepare X and y
 # X_train, X_test, y_train, y_test = handling_csv()
-X_train, X_test, y_train, y_test = train_test_split()
+X_train, X_test, y_train, y_test = train_test_split_fun()
 
 y_train_log, y_test_log, inverse = log_transform_target(y_train, y_test)
 
@@ -145,8 +146,8 @@ def train_xgboost(X_train, y_train):
 
 
 def evaluate_model(model, 
-                   X_train, y_train_log, y_train_real,
-                   X_test,  y_test_log,  y_test_real, inverse):
+                   X_train, y_train_real,
+                   X_test,  y_test_real, inverse):
     
     # Predict in log space
     y_pred_train_log = model.predict(X_train)
@@ -171,20 +172,21 @@ def evaluate_model(model,
     return metrics
 
 def run_pipeline():
+    import joblib
     # Train XGBoost
     model_xgb = train_xgboost(X_train_final, y_train_log)
 
     # 7. Evaluate
     results_xgb = evaluate_model(
         model_xgb,
-        X_train_final, y_train_log, y_train,
-        X_test_final, y_test_log, y_test,
+        X_train_final, y_train,
+        X_test_final, y_test,
         inverse
     )
 
     results_xgb
-
     return model_xgb, results_xgb
+
 
 if __name__ == "__main__":
     # If this script is run directly, execute the pipeline
