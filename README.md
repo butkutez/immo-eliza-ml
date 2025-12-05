@@ -70,9 +70,8 @@ cd immo-eliza-ml
 pip install -r requirements.txt
 ```
 
-## Running the Project
+4. **Run the project**
 ````
-# Run the model
 python pipeline.py
 ````
 
