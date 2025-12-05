@@ -50,9 +50,8 @@ clf = Pipeline(
     )]
 )
 
-
 clf.fit(X_train, y_train_log)
 eval_model = evaluate_model(clf,X_train, y_train,
                    X_test,  y_test, inverse)
 
-joblib.dump(eval_model, "model.pkl")
+joblib.dump(clf, "model.pkl")
